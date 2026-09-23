@@ -74,32 +74,35 @@ header.solid{background:rgba(15,29,45,.92);backdrop-filter:blur(12px);box-shadow
   .nav.open ul a{font-size:20px;padding:14px 8px}
 }
 
-/* ---------- Hero ---------- */
-.hero{position:relative;min-height:100svh;background:var(--navy);color:#fff;overflow:hidden;display:flex;align-items:center;padding:120px 0 80px}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 80% 40%,rgba(199,165,106,.18),transparent 60%),radial-gradient(40% 40% at 10% 90%,rgba(31,58,87,.8),transparent 70%)}
-.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,5vw,80px);align-items:center;width:100%}
-.hero h1{color:#fff}
-.hero p.lead{font-size:clamp(18px,1.6vw,22px);color:#C9D3DD;margin:30px 0 40px;max-width:52ch}
-.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
-.hex-wrap{position:relative;aspect-ratio:1/1.1;max-width:560px;width:100%;justify-self:end}
-.hex{position:absolute;inset:0;clip-path:polygon(50% 0%,97% 25%,97% 75%,50% 100%,3% 75%,3% 25%);background:linear-gradient(160deg,var(--navy-3),var(--navy-2) 60%,#0B1622);}
-.hex canvas{width:100%;height:100%}
-.hex-ring{position:absolute;inset:-4%;clip-path:polygon(50% 0%,97% 25%,97% 75%,50% 100%,3% 75%,3% 25%);background:linear-gradient(160deg,rgba(199,165,106,.5),rgba(199,165,106,0) 70%);z-index:-1;animation:breathe 7s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.03);opacity:1}}
-.hero-stats{position:absolute;left:0;right:0;bottom:0;border-top:1px solid rgba(255,255,255,.1)}
-.hero-stats .wrap{display:flex;gap:clamp(24px,5vw,80px);padding-top:22px;padding-bottom:22px;font-size:14px;color:#9AA7B5}
-.hero-stats b{display:block;color:#fff;font-size:18px;font-weight:700}
-.scroll-cue{position:absolute;right:var(--pad);bottom:110px;width:44px;height:44px;border:1.5px solid rgba(255,255,255,.3);border-radius:50%;display:grid;place-items:center;animation:bob 2.2s ease-in-out infinite}
-.scroll-cue svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
-@media (max-width:900px){
-  .hero{padding:110px 0 120px}
-  .hero .wrap{grid-template-columns:1fr}
-  .hex-wrap{justify-self:center;max-width:380px}
-  .scroll-cue{display:none}
-  .hero-stats .wrap{flex-wrap:wrap;gap:18px 32px}
+/* ---------- Hero: datastromen → kern → sturing ---------- */
+.hero{position:relative;height:100vh;height:100svh;min-height:520px;color:#fff;overflow:hidden;
+  background:
+    radial-gradient(60% 60% at 70% 45%,rgba(199,165,106,.10),transparent 60%),
+    radial-gradient(50% 50% at 10% 90%,rgba(31,58,87,.7),transparent 70%),
+    var(--navy)}
+#heroCv{position:absolute;inset:0;width:100%;height:100%;max-width:none;display:block;touch-action:manipulation}
+.hx-scrim{position:absolute;left:0;right:0;bottom:0;height:42%;pointer-events:none;
+  background:linear-gradient(to top,rgba(15,29,45,.92),rgba(15,29,45,.55) 45%,rgba(15,29,45,0))}
+.hx-words{position:absolute;inset:0;pointer-events:none;z-index:3;margin:0;color:#fff;font-size:inherit}
+.hx-words .w{position:absolute;white-space:nowrap;opacity:0;font-weight:800;letter-spacing:-.03em;line-height:1;
+  font-size:clamp(34px,5vw,74px);text-shadow:0 2px 28px rgba(15,29,45,.85)}
+.hx-words .w i{font-style:normal;color:var(--gold)}
+.hx-words.hx-headline{inset:auto;left:var(--hxL);right:var(--hxL);display:flex;flex-wrap:wrap;gap:0 .28em}
+.hx-words.hx-headline .w{position:static}
+.hx-words.hx-bottom .w{font-size:clamp(40px,6.4vw,92px)}
+.hero{--hxL:max(var(--pad),calc((100% - var(--max))/2 + var(--pad)))}   /* uitlijnen met het logo/.wrap */
+.hx-intro{position:absolute;z-index:4;left:var(--hxL);right:var(--hxL);bottom:max(7vh,36px);max-width:46ch;opacity:0}
+.hx-intro p{margin:0 0 22px;color:#C9D3DD;font-size:clamp(16px,1.4vw,20px);line-height:1.55}
+.hx-intro .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+@media (max-width:560px){
+  .hx-intro .btn{padding:12px 18px;font-size:14px}
+  .hx-intro p{margin-bottom:16px}
+  .hx-intro .hero-actions{gap:10px}
+  .hx-intro .btn svg{display:none}   /* beide knoppen op één regel */
 }
-@media (prefers-reduced-motion:reduce){.hex-ring,.scroll-cue{animation:none}}
+/* Boven de hero alleen het logo; menu en knop verschijnen zodra je scrollt */
+header .nav ul,header .nav>.btn,header .burger{transition:opacity .3s}
+header:not(.solid) .nav ul,header:not(.solid) .nav>.btn,header:not(.solid) .burger{opacity:0;pointer-events:none}
 
 /* ---------- Diensten strip ---------- */
 
@@ -243,22 +246,23 @@ footer .top{display:inline-flex;align-items:center;gap:8px;color:var(--gold-2)}
 <main id="top">
 
 <!-- ================= HERO ================= -->
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <h1>Data. Inzicht. Sturing</h1>
-      <p class="lead">AIM Analytics structureert data om onderbouwde inzichten en advies te leveren voor asset managers.</p>
-      <div class="hero-actions">
-        <a class="btn btn-gold" href="#aanpak">Bekijk de aanpak <svg><use href="#arr"/></svg></a>
-        <a class="btn btn-ghost" href="#over">Wie is de analist?</a>
-      </div>
-    </div>
-    <div class="hex-wrap">
-      <div class="hex-ring"></div>
-      <div class="hex"><canvas id="cv" aria-hidden="true"></canvas></div>
+<section class="hero" id="hero">
+  <canvas id="heroCv" aria-hidden="true"></canvas>
+  <div class="hx-scrim"></div>
+
+  <h1 class="hx-words" id="heroWords">
+    <span class="w" id="heroW0">Data<i>.</i></span>
+    <span class="w" id="heroW1">Inzicht<i>.</i></span>
+    <span class="w" id="heroW2">Sturing<i>.</i></span>
+  </h1>
+
+  <div class="hx-intro" id="heroIntro">
+    <p>AIM Analytics structureert data om onderbouwde inzichten en advies te leveren voor asset managers.</p>
+    <div class="hero-actions">
+      <a class="btn btn-gold" href="#voor">Ontdek de diensten <svg><use href="#arr"/></svg></a>
+      <a class="btn btn-ghost" href="#contact">Kennismaken</a>
     </div>
   </div>
-  <a class="scroll-cue" href="#voor" aria-label="Scroll verder"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
 </section>
 
 <!-- ================= VOOR WIE ================= -->
@@ -455,60 +459,6 @@ footer .top{display:inline-flex;align-items:center;gap:8px;color:var(--gold-2)}
     document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   } else {document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')})}
 
-  /* Hero canvas: Vapor Condense — nevel condenseert tot het woord "Inzicht" en lost weer op */
-  (function(){
-    var cv=document.getElementById('cv'),ctx=cv.getContext('2d');
-    var WORD='Inzicht',N=360,FONT='Manrope,system-ui,sans-serif';
-    var W,H,DPR,scale,anchors=[],P=[],t=0,nudge=0,raf=0,t0=0;
-    var PH={cond:3.5,hold:5,diss:3.5,haze:2.5},CYCLE=PH.cond+PH.hold+PH.diss+PH.haze;
-    function easeC(x){return 0.5-0.5*Math.cos(Math.max(0,Math.min(1,x))*Math.PI)}
-    function condAt(sec){var c=sec%CYCLE;if(c<PH.cond)return easeC(c/PH.cond);if(c<PH.cond+PH.hold)return 1;if(c<PH.cond+PH.hold+PH.diss)return 1-easeC((c-PH.cond-PH.hold)/PH.diss);return 0}
-    var VAP=[62,90,122],CORE=[226,200,143],BG='15,29,45';
-    function buildAnchors(){
-      var oc=document.createElement('canvas'),o=oc.getContext('2d');oc.width=W;oc.height=H;
-      var TRACK=0.12,fs=Math.round(Math.min(W,H)*0.34);
-      function widthAt(f){o.font='800 '+f+'px '+FONT;var w=0;for(var k=0;k<WORD.length;k++)w+=o.measureText(WORD[k]).width;return w+TRACK*f*(WORD.length-1)}
-      var tw=widthAt(fs);if(tw>W*0.7){fs=Math.round(fs*W*0.7/tw);tw=widthAt(fs)}
-      o.fillStyle='#fff';o.textAlign='left';o.textBaseline='middle';
-      var lx=W/2-tw/2;for(var k=0;k<WORD.length;k++){o.fillText(WORD[k],lx,H/2);lx+=o.measureText(WORD[k]).width+TRACK*fs}
-      var img=o.getImageData(0,0,W,H).data,pts=[],step=Math.max(3,Math.round(Math.min(W,H)/130));
-      for(var y=0;y<H;y+=step)for(var x=0;x<W;x+=step)if(img[(y*W+x)*4+3]>128)pts.push([x,y]);
-      anchors=[];for(var i=0;i<N;i++)anchors.push(pts.length?pts[(i*pts.length/N)|0]:[W/2,H/2]);
-    }
-    function size(){
-      DPR=Math.min(window.devicePixelRatio||1,2);var r=cv.parentNode.getBoundingClientRect();W=r.width;H=r.height;
-      cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);scale=Math.min(W,H)/400;buildAnchors();
-      if(!P.length)for(var i=0;i<N;i++)P.push({x:Math.random()*W,y:Math.random()*H,ph:Math.random()*6.28,sp:0.6+Math.random()*0.8});
-    }
-    function frame(){
-      t+=0.0052;nudge*=0.93;
-      var cond=condAt((performance.now()-t0)/1000),sharp=cond*cond;
-      ctx.fillStyle='rgba('+BG+',0.28)';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
-      var tt=t*60,drift=18*scale*(1-cond)+3*scale;
-      for(var i=0;i<N;i++){var p=P[i],a=anchors[i];
-        var wob=Math.sin(tt*0.02*p.sp+p.ph),wob2=Math.cos(tt*0.017*p.sp+p.ph*1.7);
-        var tx=a[0]+wob*drift*(2-cond),ty=a[1]+wob2*drift*(2-cond);
-        var cx=a[0]+(p.ph-3.14)*38*scale*(1-cond),cy=a[1]+(Math.sin(p.ph*3)*46*scale)*(1-cond);
-        var gx=tx*cond+cx*(1-cond),gy=ty*cond+cy*(1-cond),ease=0.045+0.08*cond+nudge*0.12;
-        p.x+=(gx-p.x)*ease;p.y+=(gy-p.y)*ease;
-        var rad=(1.05+(1-sharp)*3.7+nudge*1.5)*scale,al=Math.min(1,(0.05+sharp*0.5)*(0.4+0.6*Math.abs(wob)));
-        var rr=Math.round(VAP[0]+sharp*(CORE[0]-VAP[0])),gg=Math.round(VAP[1]+sharp*(CORE[1]-VAP[1])),bb=Math.round(VAP[2]+sharp*(CORE[2]-VAP[2]));
-        ctx.fillStyle='rgba('+rr+','+gg+','+bb+','+al+')';ctx.beginPath();ctx.arc(p.x,p.y,rad,0,6.283);ctx.fill();
-      }
-      ctx.globalCompositeOperation='source-over';raf=requestAnimationFrame(frame);
-    }
-    function paintStatic(){ctx.fillStyle='#0F1D2D';ctx.fillRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
-      for(var i=0;i<N;i++){var a=anchors[i];ctx.fillStyle='rgba(199,165,106,.6)';ctx.beginPath();ctx.arc(a[0],a[1],1.15*scale,0,6.283);ctx.fill();}
-      ctx.globalCompositeOperation='source-over';}
-    function start(){if(!raf&&!reduce)raf=requestAnimationFrame(frame)}
-    function stop(){cancelAnimationFrame(raf);raf=0}
-    cv.addEventListener('pointermove',function(){nudge=1});cv.addEventListener('click',function(){t0=performance.now()});
-    document.addEventListener('visibilitychange',function(){document.hidden?stop():start()});
-    window.addEventListener('resize',function(){size();if(reduce)paintStatic()});
-    function boot(){t0=performance.now();size();if(reduce)paintStatic();else start()}
-    if(document.fonts&&document.fonts.load)document.fonts.load('800 40px Manrope').then(boot,boot);else boot();
-  })();
-
   /* Voor wie: accordion + gekoppelde visual */
   var acc=document.getElementById('acc'),bars=document.getElementById('bars'),trend=document.getElementById('trend'),vlabel=document.getElementById('vlabel');
   var data={
@@ -537,6 +487,318 @@ footer .top{display:inline-flex;align-items:center;gap:8px;color:var(--gold-2)}
   ];
   var q=document.getElementById('q'),qi=0;
   document.getElementById('qbtn').addEventListener('click',function(){qi=(qi+1)%quotes.length;q.classList.add('hide');setTimeout(function(){q.textContent=quotes[qi];q.classList.remove('hide')},380)});
+})();
+</script>
+
+<script>
+/* Hero: datastromen komen samen in de Inzicht-kern en vertrekken als gouden sturingspad */
+(function(){
+"use strict";
+var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+function smooth(a,b,t){ if(t<=a) return 0; if(t>=b) return 1; var x=(t-a)/(b-a); return x*x*(3-2*x); }
+function lerp(a,b,t){ return a+(b-a)*t; }
+function bez(t,p0,p1,p2,p3){
+  var u=1-t, a=u*u*u, b=3*u*u*t, c=3*u*t*t, d=t*t*t;
+  return [a*p0[0]+b*p1[0]+c*p2[0]+d*p3[0], a*p0[1]+b*p1[1]+c*p2[1]+d*p3[1]];
+}
+function rgba(r,g,b,a){ return 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+Math.max(0,Math.min(1,a)).toFixed(3)+')'; }
+
+var cv=document.getElementById('heroCv'), ctx=cv.getContext('2d');
+var rail=document.createElement('canvas'), rctx=rail.getContext('2d');
+var railHi=document.createElement('canvas'), hctx=railHi.getContext('2d');   // zelfde stippellijnen, volledig dekkend (bron voor de hover-gloed)
+var glow=document.createElement('canvas'), gctx=glow.getContext('2d');
+var mx=-9999, my=-9999, hoverOn=false, hov=0, HR=74;
+var hero=document.getElementById('hero'), wordsEl=document.getElementById('heroWords'),
+    introEl=document.getElementById('heroIntro');
+var WEL=[document.getElementById('heroW0'),document.getElementById('heroW1'),document.getElementById('heroW2')];
+
+var mode=1, W=0,H=0,dpr=1,scale=1,vertical=false, raf=0, prev=0, t0=0;
+var paths=[],out=[],outP=[],ripples=[],pulse=0,cx=0,cy=0,R=30;
+var CHOSEN=0, CYC=15, lastIdx=-1, prevCyc=-1;
+var core1=[],rot1=0, dirs=[0,0,0];
+
+/* tijdlijn intro (seconden) */
+var WT=[0.6,2.6,4.6], WDUR=1.4, INTRO=6.5;
+// tempo van de tijdlijn (intro, woorden, tekst en de gouden-padcyclus): 1.5 = alles in 2/3 van de tijd
+var TEMPO=1.5;
+
+/* stroomrichting: horizontaal (links→rechts) of verticaal (boven→onder) */
+function map(u,v){ return vertical ? [v*W,u*H] : [u*W,v*H]; }
+
+function build(){
+  var U=vertical?0.40:0.46, V=vertical?0.50:(mode===2?0.42:0.54);
+  var c=map(U,V); cx=c[0]; cy=c[1];
+  R=36*scale;
+
+  paths=[];
+  var N=vertical?30:(W>1100?54:42);
+  for(var i=0;i<N;i++){
+    var sv=(i/N)*1.30-0.15, pc=[], k=(i%3===0)?2:1;
+    for(var j=0;j<k;j++) pc.push({t:Math.random(), sp:0.0010+Math.random()*0.0013});
+    paths.push({p0:map(-0.06,sv), p1:map(U*0.45,sv), p2:map(U*0.82,V), p3:[cx,cy], pc:pc});
+  }
+  var dU=U-0.46, dV=V-0.54;
+  function m2(u,v){ return map(u+dU,v+dV); }
+  out=[
+    {d:[[cx,cy],m2(0.60,0.70),m2(0.80,0.30),m2(1.20,0.14)]},
+    {d:[[cx,cy],m2(0.64,0.34),m2(0.82,0.70),m2(1.20,0.54)]},
+    {d:[[cx,cy],m2(0.56,0.60),m2(0.92,0.94),m2(1.20,0.80)]}
+  ];
+  for(var o=0;o<3;o++){ var q=bez(0.2,out[o].d[0],out[o].d[1],out[o].d[2],out[o].d[3]); dirs[o]=Math.atan2(q[1]-cy,q[0]-cx); }
+  outP=[{t:0.05},{t:0.42},{t:0.78}];
+
+  // 1: zeshoekig raster van datapunten in de kern
+  core1=[]; var g=6.4*scale, rr=R-6*scale;
+  for(var yy=-rr;yy<=rr;yy+=g*0.866){
+    var row=Math.round(yy/(g*0.866));
+    for(var xx=-rr;xx<=rr;xx+=g){
+      var x=xx+((row&1)?g/2:0), d=Math.hypot(x,yy);
+      if(d<=rr) core1.push({x:x,y:yy,d:d/rr,b:0});
+    }
+  }
+
+  function drawRails(c,cvs,col,lw){
+    cvs.width=cv.width; cvs.height=cv.height;
+    c.setTransform(dpr,0,0,dpr,0,0); c.clearRect(0,0,W,H);
+    c.strokeStyle=col; c.lineWidth=lw; c.lineCap='round';
+    c.setLineDash([1.6*scale,5.4*scale]);
+    for(var p=0;p<paths.length;p++){
+      var P=paths[p]; c.beginPath(); c.moveTo(P.p0[0],P.p0[1]);
+      c.bezierCurveTo(P.p1[0],P.p1[1],P.p2[0],P.p2[1],P.p3[0],P.p3[1]); c.stroke();
+    }
+    c.setLineDash([]);
+  }
+  drawRails(rctx,rail,'rgba(150,176,205,0.20)',Math.max(0.7,scale));
+  drawRails(hctx,railHi,'#fff',Math.max(1.6,2.2*scale));
+  layoutWords();
+}
+
+function size(){
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  var r=cv.getBoundingClientRect();
+  W=Math.max(1,Math.round(r.width)); H=Math.max(1,Math.round(r.height));
+  vertical = H > W*1.05;
+  // groot scherm: woorden bij hun zone (1) · mobiel: kop onderaan (2)
+  mode = (vertical || W < 760) ? 2 : 1;
+  cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  scale=Math.max(0.62,Math.min(1.45,Math.min(W,H)/720));
+  build();
+}
+
+/* ---------- woorden plaatsen ---------- */
+function layoutWords(){
+  wordsEl.className='hx-words'; introEl.className='hx-intro';
+  for(var i=0;i<3;i++){ var e=WEL[i]; e.style.left=''; e.style.top=''; e._base=''; }
+  wordsEl.style.bottom='';
+  if(mode===1){
+    wordsEl.classList.add('hx-anchored');
+    var gap=92*scale;                       // lucht tussen Inzicht en de cirkel
+    if(!vertical){
+      // uitgangspunt waren de oude posities (17% · kern · 80%); de ruimte tussen de woorden is gehalveerd
+      var wd=[WEL[0].offsetWidth,WEL[1].offsetWidth,WEL[2].offsetWidth];
+      var g1=(cx-wd[1]/2)-(W*0.17+wd[0]/2), g2=(W*0.80-wd[2]/2)-(cx+wd[1]/2);
+      var y=cy-R-gap, xs=[cx-wd[1]/2-g1/2-wd[0]/2, cx, cx+wd[1]/2+g2/2+wd[2]/2];
+      for(var j=0;j<3;j++){ WEL[j].style.left=xs[j]+'px'; WEL[j].style.top=y+'px'; WEL[j]._base='translate(-50%,-100%)'; }
+    }else{
+      var ys=[H*0.18, cy, H*0.63], x=cx+R+18*scale;
+      for(var k=0;k<3;k++){ WEL[k].style.left=(k===1?x:W*0.08)+'px'; WEL[k].style.top=ys[k]+'px'; WEL[k]._base='translate(0,-50%)'; }
+    }
+  }else if(mode===2){
+    wordsEl.classList.add('hx-headline','hx-bottom');
+    var hr=cv.getBoundingClientRect(), ib=introEl.getBoundingClientRect();
+    // mobiel: kop een stuk hoger boven de introtekst (schaalt mee met de schermhoogte)
+    wordsEl.style.bottom=(H-(ib.top-hr.top)+22+Math.max(36,H*0.08))+'px';
+    // maar nooit te dicht op de kern: minimaal ~70px lucht onder de cirkel
+    var wr=wordsEl.getBoundingClientRect(), minTop=cy+R+70*scale;
+    if(wr.top-hr.top<minTop){ wordsEl.style.bottom=(parseFloat(wordsEl.style.bottom)-(minTop-(wr.top-hr.top)))+'px'; }
+  }
+}
+
+var wordsDone=false;
+function updateWords(T){
+  if(wordsDone) return;
+  for(var i=0;i<3;i++){
+    var o=smooth(WT[i],WT[i]+WDUR,T), e=WEL[i];
+    e.style.opacity=o.toFixed(3);
+    e.style.transform=(e._base||'')+' translateY('+((1-o)*16).toFixed(1)+'px)';
+    e.style.filter=o<1?'blur('+((1-o)*6).toFixed(1)+'px)':'none';
+  }
+  var io=smooth(INTRO,INTRO+1.2,T);
+  introEl.style.opacity=io.toFixed(3);
+  introEl.style.transform='translateY('+((1-io)*12).toFixed(1)+'px)';
+  if(T>INTRO+1.3) wordsDone=true;
+}
+
+/* ---------- reacties van de kern ---------- */
+function onArrive(){
+  pulse=Math.min(1.4,pulse+0.05);
+  core1[(Math.random()*core1.length)|0].b=1;
+}
+function onBurst(){
+  pulse=Math.min(1.4,pulse+0.9);
+  for(var i=0;i<core1.length;i++){ if(Math.random()<0.45) core1[i].b=1; }
+}
+
+function drawCore(T,dt,nIn){
+  var k=Math.pow(0.965,dt), i;
+  // dekkende schijf: de binnenkomende stromen verdwijnen achter de kern
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle=rgba(15,29,45,Math.min(1,nIn*4));
+  ctx.beginPath(); ctx.arc(cx,cy,R*(0.6+0.4*nIn),0,6.283); ctx.fill();
+  ctx.strokeStyle=rgba(199,165,106,(0.45+pulse*0.4)*nIn);
+  ctx.lineWidth=1.3*scale;
+  ctx.beginPath(); ctx.arc(cx,cy,R*(0.6+0.4*nIn),0,6.283); ctx.stroke();
+  ctx.strokeStyle=rgba(199,165,106,pulse*0.35*nIn);
+  ctx.lineWidth=1*scale;
+  ctx.beginPath(); ctx.arc(cx,cy,R+(5+pulse*18)*scale,0,6.283); ctx.stroke();
+
+  // Inzicht-kern: zeshoekig raster van datapunten dat langzaam draait
+  ctx.globalCompositeOperation='lighter';
+  rot1+=0.0016*dt; var cs=Math.cos(rot1), sn=Math.sin(rot1);
+  for(i=0;i<core1.length;i++){
+    var d=core1[i]; d.b*=k;
+    var show=smooth(d.d*0.85,d.d*0.85+0.15,nIn); if(show<=0) continue;
+    var x=cx+d.x*cs-d.y*sn, y=cy+d.x*sn+d.y*cs;
+    ctx.fillStyle=rgba(lerp(120,226,d.b),lerp(146,200,d.b),lerp(176,143,d.b),(0.42+d.b*0.58)*show);
+    ctx.beginPath(); ctx.arc(x,y,(1.05+d.b*1.0)*scale,0,6.283); ctx.fill();
+  }
+  ctx.globalCompositeOperation='source-over';
+}
+
+/* ---------- één beeld ---------- */
+function render(T,dt){
+  if(!(W>0&&H>0)) return;   // hero nog niet opgemeten: niets tekenen
+  var dataIn=smooth(0.2,3.8,T), nodeIn=smooth(2.6,4.0,T), pathIn=smooth(4.2,5.9,T);
+  // de datastromen komen van links (boven op een staand scherm) in beeld: een front schuift naar het knooppunt
+  var Uc=vertical?cy/H:cx/W, EDGE=0.14, front=lerp(-0.02,Uc+EDGE+0.02,dataIn);
+  ctx.clearRect(0,0,W,H);
+  ctx.drawImage(rail,0,0,W,H);
+  if(dataIn<1){
+    var L=vertical?H:W, g=vertical?ctx.createLinearGradient(0,0,0,H):ctx.createLinearGradient(0,0,W,0);
+    var a=Math.max(0,Math.min(1,front-EDGE)), b=Math.max(0,Math.min(1,front));
+    g.addColorStop(0,'rgba(0,0,0,'+(front>0?1:0)+')');
+    g.addColorStop(a,'rgba(0,0,0,1)'); g.addColorStop(Math.max(a,b),'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.globalCompositeOperation='destination-in'; ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  }
+  ctx.globalCompositeOperation='lighter';
+
+  // gouden gloed op de stippellijnen rond de cursor
+  hov+=((hoverOn?1:0)-hov)*Math.min(1,0.14*dt);
+  HR=49*scale;   // 2/3 van de vorige diameter
+  if(hov>0.01&&dataIn>0.05){
+    var gs=Math.ceil(HR*2), gx=mx-HR, gy=my-HR;
+    glow.width=gs*dpr; glow.height=gs*dpr;
+    gctx.setTransform(1,0,0,1,0,0);
+    gctx.globalCompositeOperation='source-over';
+    // bronrechthoek binnen het canvas houden (Safari tekent anders niets)
+    var sx=Math.max(0,gx), sy=Math.max(0,gy), ex=Math.min(W,gx+gs), ey=Math.min(H,gy+gs);
+    gctx.clearRect(0,0,glow.width,glow.height);
+    if(ex>sx&&ey>sy) gctx.drawImage(railHi,sx*dpr,sy*dpr,(ex-sx)*dpr,(ey-sy)*dpr,(sx-gx)*dpr,(sy-gy)*dpr,(ex-sx)*dpr,(ey-sy)*dpr);
+    gctx.globalCompositeOperation='source-in';
+    var rg=gctx.createRadialGradient(HR*dpr,HR*dpr,0,HR*dpr,HR*dpr,HR*dpr);
+    rg.addColorStop(0,'rgba(226,200,143,'+(0.60*hov*dataIn).toFixed(3)+')');
+    rg.addColorStop(0.55,'rgba(199,165,106,'+(0.32*hov*dataIn).toFixed(3)+')');
+    rg.addColorStop(1,'rgba(199,165,106,0)');
+    gctx.fillStyle=rg; gctx.fillRect(0,0,gs*dpr,gs*dpr);
+    // alleen de punten zelf lichten op, geen waas rond de cursor
+    ctx.globalCompositeOperation='lighter';
+    ctx.drawImage(glow,gx,gy,gs,gs);
+  }
+
+  for(var i=0;i<paths.length;i++){
+    var p=paths[i];
+    for(var j=0;j<p.pc.length;j++){
+      var q=p.pc[j]; q.t+=q.sp*dt;
+      if(q.t>1){ q.t=0; if(nodeIn>0.3) onArrive(); }
+      var pos=bez(q.t,p.p0,p.p1,p.p2,p.p3), x=pos[0], y=pos[1];
+      var near=Math.min(1,Math.pow(q.t,2.2));
+      if(hov>0.01){ var hd=Math.hypot(x-mx,y-my); if(hd<HR) near=Math.max(near,Math.pow(1-hd/HR,0.7)*hov*0.65); }
+      ctx.fillStyle=rgba(lerp(150,226,near),lerp(176,200,near),lerp(205,143,near),(0.35+near*0.5)*(dataIn<1?1-smooth(front-EDGE,front,(vertical?y/H:x/W)):1));
+      ctx.beginPath(); ctx.arc(x,y,(1.5+near*1.0)*scale,0,6.283); ctx.fill();
+    }
+  }
+
+  // keuzecyclus start pas na de intro
+  var cyc, idx;
+  if(T<6){ cyc=0; idx=0; } else { var el=T-3; idx=Math.floor(el/CYC); cyc=el-idx*CYC; }
+  if(idx!==lastIdx){ lastIdx=idx; CHOSEN=idx%3; for(var o=0;o<3;o++) outP[o].t=[0.05,0.42,0.78][o]; prevCyc=-1; }
+  if(dt>0){ if(prevCyc<4.9&&cyc>=4.9) onBurst(); prevCyc=cyc; }
+  var draw=smooth(4.9,6.6,cyc), fade=1-smooth(12.6,13.8,cyc), vis=draw*fade;
+
+  ctx.lineCap='round';
+  ctx.setLineDash([2.4*scale,6.5*scale]);
+  for(var w=0;w<3;w++){
+    var od=out[w].d, mine=(w===CHOSEN);
+    var da=(mine?0.30*(1-vis):0.30-vis*0.16)*pathIn;
+    ctx.strokeStyle='rgba(176,190,208,'+da.toFixed(3)+')'; ctx.lineWidth=1.5*scale;
+    // bij de intro groeien de paden vanuit de kern naar buiten
+    var n=Math.max(1,Math.ceil(pathIn*48));
+    ctx.beginPath(); ctx.moveTo(od[0][0],od[0][1]);
+    for(var s=1;s<=n;s++){ var pt=bez(s/48,od[0],od[1],od[2],od[3]); ctx.lineTo(pt[0],pt[1]); }
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  var sol=out[CHOSEN].d;
+  if(vis>0.001){
+    var SEG=64, kf=draw*SEG;
+    ctx.strokeStyle='rgba(199,165,106,'+(0.8*fade).toFixed(3)+')'; ctx.lineWidth=2.6*scale;
+    ctx.beginPath(); ctx.moveTo(sol[0][0],sol[0][1]);
+    for(var s2=1;s2<=Math.min(SEG,Math.ceil(kf));s2++){ var tt=Math.min(kf,s2)/SEG, p2=bez(tt,sol[0],sol[1],sol[2],sol[3]); ctx.lineTo(p2[0],p2[1]); }
+    ctx.stroke();
+    for(var o2=0;o2<3;o2++){
+      var op=outP[o2]; op.t+=0.0022*dt; if(op.t>1) op.t=0;
+      if(op.t>draw) continue;
+      var pp=bez(op.t,sol[0],sol[1],sol[2],sol[3]);
+      ctx.fillStyle=rgba(255,236,196,(0.9-op.t*0.35)*Math.min(1,draw*2)*fade);
+      ctx.beginPath(); ctx.arc(pp[0],pp[1],(2.6-op.t*0.7)*scale,0,6.283); ctx.fill();
+    }
+  }
+
+  pulse*=Math.pow(0.90,dt);
+  drawCore(T,dt,nodeIn);
+}
+
+function frame(now){
+  var dt=Math.min(3,(now-prev)/16.67||1); prev=now;
+  var T=(now-t0)/1000*TEMPO;
+  render(T,dt); updateWords(T);
+  raf=requestAnimationFrame(frame);
+}
+function stop(){ if(raf) cancelAnimationFrame(raf); raf=0; }
+var inView=true, booted=false;
+function start(){ if(booted&&!raf&&!reduce&&!document.hidden&&inView&&W>0&&H>0){ prev=performance.now(); raf=requestAnimationFrame(frame); } }
+
+function still(){ // stilstaand eindbeeld: alles zichtbaar, gouden pad uitgetekend
+  wordsDone=false; pulse=0; lastIdx=-1; render(12,0); updateWords(20);
+}
+function restart(){
+  stop(); pulse=0; lastIdx=-1; prevCyc=-1; wordsDone=false;
+  for(var i=0;i<paths.length;i++) for(var j=0;j<paths[i].pc.length;j++) paths[i].pc[j].t=Math.random();
+  t0=performance.now();
+  if(reduce) still(); else { updateWords(0); start(); }
+}
+
+// 5: hover — datapunten rond de cursor lichten goud op
+hero.addEventListener('pointermove',function(ev){
+  if(ev.pointerType==='touch') return;
+  var r=cv.getBoundingClientRect(); mx=ev.clientX-r.left; my=ev.clientY-r.top; hoverOn=true;
+});
+hero.addEventListener('pointerleave',function(){ hoverOn=false; });
+var rz=0;
+window.addEventListener('resize',function(){ clearTimeout(rz); rz=setTimeout(function(){
+  var was=mode; size();
+  if(reduce) still(); else if(wordsDone){ wordsDone=false; updateWords(99); } else if(was!==mode) updateWords((performance.now()-t0)/1000*TEMPO);
+  start();   // start alsnog als de hero eerder nog geen afmeting had
+},120); });
+document.addEventListener('visibilitychange',function(){ document.hidden?stop():start(); });
+// buiten beeld gescrold: animatie pauzeren
+if('IntersectionObserver' in window){
+  new IntersectionObserver(function(es){ inView=es[0].isIntersecting; inView?start():stop(); },{threshold:0}).observe(hero);
+}
+
+function boot(){ booted=true; size(); restart(); }
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(boot,boot); else boot();
 })();
 </script>
 </body>
